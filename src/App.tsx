@@ -1,13 +1,14 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useFFmpeg } from './hooks/useFFmpeg';
 import { fetchFile } from '@ffmpeg/util';
+import type { ProgressEvent } from '@ffmpeg/ffmpeg';
 import { Button } from '@/components/ui/button';
 import { Dropzone } from '@/components/ui/dropzone';
 import { ImageIcon } from 'lucide-react';
 import type { FileRejection } from 'react-dropzone';
-import { Skeleton } from './components/ui/skeleton';
 import { Spinner } from './components/ui/spinner';
 import ActionPanel from './components/ActionPanel';
+import { Progress } from './components/ui/progress';
 
 const fileSizeLimit50MB = 1024 * 1024 * 50;
 const outputExtension = 'gif';
@@ -16,7 +17,24 @@ function App() {
     const [file, setFile] = useState<File | null>(null);
     const [isConverting, setIsConverting] = useState(false);
     const [gifUrl, setGifUrl] = useState<string | null>(null);
+    const [progress, setProgress] = useState(0);
+
     const { ffmpeg, loaded, isLoading } = useFFmpeg();
+
+    useEffect(() => {
+        const progressHandler = ({ progress, time }: ProgressEvent) => {
+            console.log(
+                `${progress * 100} % (transcoded time: ${time / 1000000} s)`
+            );
+            setProgress(progress * 100);
+        };
+
+        ffmpeg.on('progress', progressHandler);
+
+        return () => {
+            ffmpeg.off('progress', progressHandler);
+        };
+    }, [ffmpeg, setProgress]);
 
     const maxFileSize = parseInt(
         import.meta.env.VITE_MAX_FILE_SIZE ?? fileSizeLimit50MB,
@@ -27,7 +45,6 @@ function App() {
     const inputFileName = file ? file.name : '';
     const outputFileName = `${inputFileName.split('.').slice(0, -1).join('.')}.${outputExtension}`;
 
-
     const handleFileChange = (file: File) => setFile(file);
 
     const transcode = async () => {
@@ -36,10 +53,8 @@ function App() {
         setGifUrl(null);
         setIsConverting(true);
 
-        await ffmpeg.writeFile(
-            inputFileName,
-            await fetchFile(file)
-        );
+        await ffmpeg.writeFile(inputFileName, await fetchFile(file));
+
         await ffmpeg.exec([
             '-i',
             inputFileName,
@@ -98,7 +113,7 @@ function App() {
                                 border-dashed border-border"
                         >
                             {isConverting && (
-                                <Skeleton className="h-full w-full rounded-md" />
+                                <Progress value={progress} className="w-2/3" />
                             )}
                             {gifUrl && (
                                 <img
@@ -119,7 +134,10 @@ function App() {
                                 </>
                             )}
                         </div>
-                        <ActionPanel imageUrl={gifUrl} outputFileName={outputFileName} />
+                        <ActionPanel
+                            imageUrl={gifUrl}
+                            outputFileName={outputFileName}
+                        />
                     </div>
                 </>
             )}
