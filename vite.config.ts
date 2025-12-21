@@ -6,6 +6,7 @@ import basicSsl from '@vitejs/plugin-basic-ssl'
 
 // https://vite.dev/config/
 export default defineConfig({
+  base: '/SoloConvert/', // Replace with your repository name
   plugins: [
     react(),
     tailwindcss(),
