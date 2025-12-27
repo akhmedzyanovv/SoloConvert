@@ -108,6 +108,13 @@ function App() {
     const handleFileReject = (fileRejections: FileRejection[]) =>
         fileRejections.forEach(({ errors }) => console.error(errors));
 
+    const onReset = () => {
+        setFile(null);
+        setFileUrl(null);
+        setGifUrl(null);
+        setTrimRange({ start: 0, end: 0 });
+    };
+
     return (
         <div
             className="flex min-h-dvh w-full flex-col items-center
@@ -184,6 +191,8 @@ function App() {
                                 )}
                             </div>
                             <ActionPanel
+                                resetDisabled={!file}
+                                onReset={onReset}
                                 imageUrl={gifUrl}
                                 outputFileName={outputFileName}
                             />

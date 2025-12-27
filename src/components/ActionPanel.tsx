@@ -1,13 +1,15 @@
-import { DownloadIcon, ExternalLinkIcon, Share2Icon } from 'lucide-react';
+import { DownloadIcon, ExternalLinkIcon, Share2Icon, RotateCcwIcon } from 'lucide-react';
 import { Button } from './ui/button';
 import { ButtonGroup } from './ui/button-group';
 
 interface ActionPanelProps {
     imageUrl: string | null;
     outputFileName: string | null;
+    resetDisabled: boolean
+    onReset: () => void;
 }
 
-function ActionPanel({ imageUrl, outputFileName }: ActionPanelProps) {
+function ActionPanel({ imageUrl, outputFileName, resetDisabled, onReset }: ActionPanelProps) {
     const download = () => {
         if (!imageUrl) return;
         const a = document.createElement('a');
@@ -21,7 +23,6 @@ function ActionPanel({ imageUrl, outputFileName }: ActionPanelProps) {
         window.open(imageUrl, '_blank');
     };
 
-
     const share = async () => {
         if (!imageUrl) return;
         try {
@@ -33,7 +34,7 @@ function ActionPanel({ imageUrl, outputFileName }: ActionPanelProps) {
 
             if (navigator.canShare && navigator.canShare({ files: [file] })) {
                 await navigator.share({
-                    files: [file],
+                    files: [file]
                 });
             } else {
                 console.log('Sharing not supported');
@@ -44,39 +45,51 @@ function ActionPanel({ imageUrl, outputFileName }: ActionPanelProps) {
     };
 
     return (
-        <ButtonGroup className="[--radius:9999rem]">
-            <ButtonGroup>
+        <section className='flex flex-row justify-between'>
+            <ButtonGroup className="[--radius:9999rem]">
+                <ButtonGroup>
+                    <Button
+                        type="button"
+                        variant="outline"
+                        disabled={!imageUrl}
+                        onClick={download}
+                    >
+                        Download <DownloadIcon />
+                    </Button>
+                </ButtonGroup>
+                <ButtonGroup>
+                    <Button
+                        type="button"
+                        variant="outline"
+                        disabled={!imageUrl}
+                        onClick={openInNewTab}
+                    >
+                        View <ExternalLinkIcon />
+                    </Button>
+                </ButtonGroup>
+                <ButtonGroup>
+                    <Button
+                        type="button"
+                        variant="outline"
+                        size="icon"
+                        disabled={!imageUrl}
+                        onClick={share}
+                    >
+                        <Share2Icon />
+                    </Button>
+                </ButtonGroup>
+            </ButtonGroup>
+            <ButtonGroup className="[--radius:9999rem]">
                 <Button
                     type="button"
-                    variant="outline"
-                    disabled={!imageUrl}
-                    onClick={download}
+                    variant="destructive"
+                    disabled={resetDisabled}
+                    onClick={onReset}
                 >
-                    Download <DownloadIcon />
+                    <RotateCcwIcon />
                 </Button>
             </ButtonGroup>
-            <ButtonGroup>
-                <Button
-                    type="button"
-                    variant="outline"
-                    disabled={!imageUrl}
-                    onClick={openInNewTab}
-                >
-                    View <ExternalLinkIcon />
-                </Button>
-            </ButtonGroup>
-            <ButtonGroup>
-                <Button
-                    type="button"
-                    variant="outline"
-                    size="icon"
-                    disabled={!imageUrl}
-                    onClick={share}
-                >
-                    <Share2Icon />
-                </Button>
-            </ButtonGroup>
-        </ButtonGroup>
+        </section>
     );
 }
 
