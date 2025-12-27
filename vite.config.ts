@@ -3,6 +3,7 @@ import react from '@vitejs/plugin-react';
 import tailwindcss from '@tailwindcss/vite';
 import path from "path";
 import basicSsl from '@vitejs/plugin-basic-ssl'
+import { qrcode } from 'vite-plugin-qrcode';
 
 // https://vite.dev/config/
 export default defineConfig({
@@ -11,6 +12,7 @@ export default defineConfig({
     react(),
     tailwindcss(),
     basicSsl(),
+    qrcode(),
   ],
   optimizeDeps: {
     exclude: ['@ffmpeg/ffmpeg', '@ffmpeg/util'],

@@ -25,7 +25,7 @@ const Dropzone = ({
 
     return (
         <section
-            className="w-full cursor-pointer border-4 border-dotted border-border p-4"
+            className="flex flex-col justify-center w-full cursor-pointer border-4 border-dotted border-border p-4"
         >
             <div
                 {...getRootProps({
