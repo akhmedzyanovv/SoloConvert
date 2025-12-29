@@ -66,7 +66,7 @@ function App() {
     const outputFileName = `${inputFileName.split('.').slice(0, -1).join('.')}.${outputExtension}`;
 
     const handleFileChange = (file: File) => setFile(file);
-    
+
     const transcode = async () => {
         try {
             if (!file) return;
@@ -141,6 +141,7 @@ function App() {
                             )}
                             {fileUrl && (
                                 <VideoPlayer
+                                    key={fileUrl}
                                     src={fileUrl}
                                     onTrimChange={setTrimRange}
                                 />

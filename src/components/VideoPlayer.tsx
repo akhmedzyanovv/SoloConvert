@@ -4,7 +4,7 @@ import { PlayIcon, PauseIcon, RotateCcw } from 'lucide-react';
 
 interface VideoPlayerProps {
     src: string;
-    onTrimChange?: (range: { start: number; end: number }) => void;
+    onTrimChange: (range: { start: number; end: number }) => void;
 }
 
 const minGap = 0.1;
@@ -26,13 +26,6 @@ function VideoPlayer({ src, onTrimChange }: VideoPlayerProps) {
     }, [start, end, duration]);
 
     useEffect(() => {
-        setStart(0);
-        setEnd(0);
-        setCurrentTime(0);
-        setIsPlaying(false);
-    }, [src]);
-
-    useEffect(() => {
         if (!isDragging) return;
 
         const handlePointerMove = (e: PointerEvent) => {
@@ -46,7 +39,7 @@ function VideoPlayer({ src, onTrimChange }: VideoPlayerProps) {
                 const newStart = Math.min(time, end - minGap);
                 const clampedStart = Math.max(0, newStart);
                 setStart(clampedStart);
-                onTrimChange?.({
+                onTrimChange({
                     start: clampedStart,
                     end
                 });
@@ -58,7 +51,7 @@ function VideoPlayer({ src, onTrimChange }: VideoPlayerProps) {
                 const newEnd = Math.max(time, start + minGap);
                 const clampedEnd = Math.min(duration, newEnd);
                 setEnd(clampedEnd);
-                onTrimChange?.({
+                onTrimChange({
                     start,
                     end: clampedEnd
                 });
