@@ -42,19 +42,6 @@ function App() {
         };
     }, [ffmpeg, setProgress]);
 
-    useEffect(() => {
-        if (!file) {
-            setFileUrl(null);
-            return;
-        }
-
-        const url = URL.createObjectURL(file);
-        setFileUrl(url);
-        return () => {
-            URL.revokeObjectURL(url);
-        };
-    }, [file]);
-
     const maxFileSize = parseInt(
         import.meta.env.VITE_MAX_FILE_SIZE ?? fileSizeLimit50MB,
         10
@@ -65,7 +52,10 @@ function App() {
     const inputFileName = file ? file.name : '';
     const outputFileName = `${inputFileName.split('.').slice(0, -1).join('.')}.${outputExtension}`;
 
-    const handleFileChange = (file: File) => setFile(file);
+    const handleFileChange = (file: File) => {
+        setFile(file);
+        setFileUrl(URL.createObjectURL(file));
+    }
 
     const transcode = async () => {
         try {
@@ -109,6 +99,7 @@ function App() {
         fileRejections.forEach(({ errors }) => console.error(errors));
 
     const onReset = () => {
+        URL.revokeObjectURL(fileUrl ?? '');
         setFile(null);
         setFileUrl(null);
         setGifUrl(null);
