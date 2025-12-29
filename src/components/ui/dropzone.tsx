@@ -25,12 +25,12 @@ const Dropzone = ({
 
     return (
         <section
-            className="flex flex-col justify-center w-full cursor-pointer border-4 border-dotted border-border p-4"
+            className="flex flex-col justify-center w-full cursor-pointer border-4 border-dotted border-border"
         >
             <div
                 {...getRootProps({
                     className:
-                        'dropzone flex h-32 flex-col items-center justify-center gap-2 text-center'
+                        'dropzone flex h-full flex-col items-center justify-center gap-2 text-center'
                 })}
             >
                 <input {...getInputProps()} />
