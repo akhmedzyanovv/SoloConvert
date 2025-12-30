@@ -1,0 +1,1 @@
+export const minProgressGap = 0.1;

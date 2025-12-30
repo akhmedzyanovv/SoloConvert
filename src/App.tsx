@@ -8,7 +8,7 @@ import { ImageIcon } from 'lucide-react';
 import type { FileRejection } from 'react-dropzone';
 import { Spinner } from '@/components/ui/spinner';
 import ActionPanel from '@/components/ActionPanel';
-import VideoPlayer from '@/components/VideoPlayer';
+import { VideoPlayer } from '@/components/VideoPlayer';
 import { Progress } from '@/components/ui/progress';
 
 const fileSizeLimit50MB = 1024 * 1024 * 50;
@@ -104,6 +104,7 @@ function App() {
         setFileUrl(null);
         setGifUrl(null);
         setTrimRange({ start: 0, end: 0 });
+        setProgress(0);
     };
 
     return (
