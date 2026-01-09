@@ -27,16 +27,7 @@ export const useFFmpeg = () => {
 
             const loadResource = async (url: string, type: string) => {
                 try {
-                    const cache = await caches.open('ffmpeg-cache');
-                    let response = await cache.match(url);
-
-                    if (!response) {
-                        response = await fetch(url);
-                        if (response.ok) {
-                            await cache.put(url, response.clone());
-                        }
-                    }
-
+                    const response = await fetch(url);
                     const blob = await response.blob();
                     return URL.createObjectURL(new Blob([blob], { type }));
                 } catch (e) {
