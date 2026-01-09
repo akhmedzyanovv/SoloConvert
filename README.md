@@ -8,6 +8,7 @@ SoloConvert is a serverless web application for converting videos to GIFs direct
 - **Privacy-Focused**: Files are never uploaded to a server.
 - **Responsive Design**: Works seamlessly on desktop and mobile devices.
 - **Optimized Output**: Automatically handles resizing and frame rate adjustments to prevent memory issues on mobile.
+- **PWA Support**: Installable as a native-like app on supported devices.
 
 ## Tech Stack
 
@@ -29,7 +30,22 @@ SoloConvert is a serverless web application for converting videos to GIFs direct
    npm install
    ```
 
-3. **Run the development server**
+3. **Configure Environment**
+   Rename `.env.local.example` to `.env.local` and configure SSL certificates. This is required for `SharedArrayBuffer` support in local development.
+
+   You can generate locally trusted certificates using mkcert:
+   ```bash
+   mkcert -install
+   mkcert localhost
+   ```
+
+   Update `.env.local` with the paths to your generated certificates:
+   ```env
+   VITE_SSL_CERT_PATH="./localhost.pem"
+   VITE_SSL_KEY_PATH="./localhost-key.pem"
+   ```
+
+4. **Run the development server**
    ```bash
    npm run dev
    ```
