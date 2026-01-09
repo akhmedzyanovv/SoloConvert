@@ -10,6 +10,18 @@ import fs from 'fs';
 export default defineConfig(({ mode }) => {
     const env = loadEnv(mode, process.cwd());
 
+    const https =
+        env.VITE_SSL_KEY_PATH && env.VITE_SSL_CERT_PATH
+            ? {
+                  key: fs.readFileSync(
+                      path.resolve(__dirname, env.VITE_SSL_KEY_PATH)
+                  ),
+                  cert: fs.readFileSync(
+                      path.resolve(__dirname, env.VITE_SSL_CERT_PATH)
+                  )
+              }
+            : undefined;
+
     return {
         base: env.VITE_BASE_URL,
         plugins: [
@@ -88,14 +100,7 @@ export default defineConfig(({ mode }) => {
                 'Cross-Origin-Embedder-Policy': 'require-corp',
                 'Cross-Origin-Opener-Policy': 'same-origin'
             },
-            https: {
-                key: fs.readFileSync(
-                    path.resolve(__dirname, env.VITE_SSL_KEY_PATH)
-                ),
-                cert: fs.readFileSync(
-                    path.resolve(__dirname, env.VITE_SSL_CERT_PATH)
-                )
-            }
+            https
         }
     };
 });
