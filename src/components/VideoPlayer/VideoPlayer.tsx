@@ -23,6 +23,13 @@ function VideoPlayer({ src, onTrimChange }: VideoPlayerProps) {
         stateRef.current = { start, end, duration };
     }, [start, end, duration]);
 
+    // Fix for WebKit bug https://bugs.webkit.org/show_bug.cgi?id=197608
+    useEffect(() => {
+        if (videoRef.current) {
+            videoRef.current.load();
+        }
+    }, [src]);
+
     const handleLoadedMetadata = () => {
         if (videoRef.current) {
             const dur = videoRef.current.duration;
