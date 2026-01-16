@@ -55,7 +55,7 @@ function App() {
     const handleFileChange = (file: File) => {
         setFile(file);
         setFileUrl(URL.createObjectURL(file));
-    }
+    };
 
     const transcode = async () => {
         try {
@@ -109,7 +109,7 @@ function App() {
 
     return (
         <div
-            className="flex min-h-dvh w-full flex-col items-center
+            className="bg-background flex min-h-dvh w-full flex-col items-center
                 justify-center gap-5 p-8"
         >
             {isLoading && (
@@ -151,7 +151,7 @@ function App() {
                         </div>
                         <div className="flex flex-col gap-5 flex-1">
                             <div
-                                className="flex h-full w-full flex-col
+                                className="bg-card flex h-full w-full flex-col
                                     items-center justify-center gap-2 rounded-md
                                     border-2 border-dashed border-border"
                             >

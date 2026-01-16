@@ -25,7 +25,7 @@ const Dropzone = ({
 
     return (
         <section
-            className="flex flex-col justify-center w-full cursor-pointer border-4 border-dotted border-border"
+            className="bg-card flex flex-col justify-center w-full cursor-pointer rounded-md border-2 p4"
         >
             <div
                 {...getRootProps({
@@ -36,7 +36,7 @@ const Dropzone = ({
                 <input {...getInputProps()} />
                 {acceptedFiles.length === 0 ? (
                     <>
-                        <p className="font-medium">Drop your video here</p>
+                        <p className="font-medium text-primary">Drop your video here</p>
                         {limitInMB > 0 && (
                             <p className="text-sm text-muted-foreground">
                                 Limit: {limitInMB}MB
