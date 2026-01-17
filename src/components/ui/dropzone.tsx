@@ -25,7 +25,7 @@ const Dropzone = ({
 
     return (
         <section
-            className="bg-card flex flex-col justify-center w-full cursor-pointer rounded-md border-2 p4"
+            className="bg-card flex flex-col justify-center w-full cursor-pointer rounded-md border-2"
         >
             <div
                 {...getRootProps({
